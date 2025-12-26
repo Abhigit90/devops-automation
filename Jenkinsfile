@@ -7,7 +7,7 @@ pipeline {
      stages {
         stage('Build Maven') {
             steps {
-                checkout scmGit(branches: [[name: '*/main']], extensions: [], userRemoteConfigs: [[url: 'https://github.com/maysharma123/devops_automation.git']])
+                checkout scmGit(branches: [[name: '*/main']], extensions: [], userRemoteConfigs: [[url: 'https://github.com/Abhigit90/devops-automation.git']])
                 sh 'mvn clean install'
             }
         }
@@ -16,14 +16,14 @@ pipeline {
                 script{
                     sh 'docker rm -f $(docker ps -aq)'
                     sh 'docker rmi -f $(docker images -aq)'
-                    sh 'docker build -t mayanksharma12/devops-intergation .'
+                    sh 'docker build -t abhishek9888/devops-intergation .'
                 }
             }
         }
         stage('docker container creation'){
             steps{
                 script{
-                    sh 'docker run -itd --name con1 -p 8081:8080 mayanksharma12/devops-intergation'
+                    sh 'docker run -itd --name con1 -p 8081:8080 abhishek9888/devops-intergation'
                 }
             }
         }
@@ -31,9 +31,9 @@ pipeline {
             steps{
                 script{
                     withCredentials([string(credentialsId: 'dockerhubpwd', variable: 'dockerhub')]) {
-                    sh 'docker login -u mayanksharma12 -p ${dockerhub}'
+                    sh 'docker login -u abhishek9888 -p ${dockerhub}'
                     }
-                    sh 'docker push mayanksharma12/devops-intergation'
+                    sh 'docker push abhishek9888/devops-intergation'
                 }
             }
         }
